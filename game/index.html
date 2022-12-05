@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>My first game</title>
+    <style type="text/css">
+        html,
+        body,
+        div,
+        span,
+        applet,
+        object,
+        iframe,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        p,
+        blockquote,
+        pre,
+        a,
+        abbr,
+        acronym,
+        address,
+        big,
+        cite,
+        code,
+        del,
+        dfn,
+        em,
+        img,
+        ins,
+        kbd,
+        q,
+        s,
+        samp,
+        small,
+        strike,
+        strong,
+        sub,
+        sup,
+        tt,
+        var,
+        b,
+        u,
+        i,
+        center,
+        dl,
+        dt,
+        dd,
+        ol,
+        ul,
+        li,
+        fieldset,
+        form,
+        label,
+        legend,
+        table,
+        caption,
+        tbody,
+        tfoot,
+        thead,
+        tr,
+        th,
+        td,
+        article,
+        aside,
+        canvas,
+        details,
+        embed,
+        figure,
+        figcaption,
+        footer,
+        header,
+        hgroup,
+        menu,
+        nav,
+        output,
+        ruby,
+        section,
+        summary,
+        time,
+        mark,
+        audio,
+        video {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-size: 100%;
+            font: inherit;
+            vertical-align: baseline;
+        }
+
+        /* HTML5 display-role reset for older browsers */
+        article,
+        aside,
+        details,
+        figcaption,
+        figure,
+        footer,
+        header,
+        hgroup,
+        menu,
+        nav,
+        section {
+            display: block;
+        }
+
+        body {
+            line-height: 1;
+        }
+
+        ol,
+        ul {
+            list-style: none;
+        }
+
+        blockquote,
+        q {
+            quotes: none;
+        }
+
+        blockquote:before,
+        blockquote:after,
+        q:before,
+        q:after {
+            content: '';
+            content: none;
+        }
+
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+    </style>
+    <link href='https://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet' type='text/css'>
+
+    <script src="js/Assets.js"></script>
+    <script src="js/Game.js"></script>
+    <script src="js/Abstract/CanvasObject.js"></script>
+    <script src="js/Abstract/CanvasObjectShape.js"></script>
+    <script src="js/Abstract/CanvasObjectHealth.js"></script>
+    <script src="js/Abstract/CanvasObjectPoints.js"></script>
+    <script src="js/Object/Text.js"></script>
+    <script src="js/Object/Fighter.js"></script>
+    <script src="js/Object/FighterLevel.js"></script>
+    <script src="js/Object/Bullet.js"></script>
+    <script src="js/Object/BulletImpact.js"></script>
+    <script src="js/Object/Asteroid.js"></script>
+    <script src="js/Object/Enemy.js"></script>
+    <script src="js/Object/Boss.js"></script>
+    <script src="js/Object/BossHp.js"></script>
+    <script src="js/Object/Background.js"></script>
+    <script src="js/Object/Menu.js"></script>
+    <script src="js/Object/Turret.js"></script>
+    <script src="js/Object/BulletAngle.js"></script>
+    <script src="js/Object/BossFinal.js"></script>
+    <script src="js/Object/BossFinalIntro.js"></script>
+
+    <script src="js/Object/BossAsteroid.js"></script>
+
+
+
+    <!--<script src="js/Object/DamageText.js"></script>-->
+
+    <script src="js/Abstract/ScenarioObject.js"></script>
+    <script src="js/Level/Scenario/Intro.js"></script>
+    <script src="js/Level/Scenario/Level1.js"></script>
+    <script src="js/Level/Scenario/Level1Outro.js"></script>
+    <script src="js/Level/Scenario/Level2Intro.js"></script>
+    <script src="js/Level/Scenario/Level2.js"></script>
+    <script src="js/Level/Scenario/Level2Outro.js"></script>
+    <script src="js/Level/Scenario/Level3.js"></script>
+    <script src="js/Level/Scenario/Challange.js"></script>
+
+    <script src="js/Level/Level.js"></script>
+    <script src="js/Level/Texts.js"></script>
+</head>
+
+<body
+    style="text-align: center;background: black;padding: 0;margin: 0; background: url(assets/game.bg.jpg);background-size:cover">
+    <center id="loading" style="color: white;font-weight: bold;">LOADING</center>
+    <canvas id="canvas"
+        style="left:0;top:0;;width:100%;height:100%;position:fixed;padding: 0;margin: 0;-webkit-box-shadow: 0px 2px 64px 36px rgba(0,0,0,0.75);-moz-box-shadow: 0px 2px 64px 36px rgba(0,0,0,0.75);box-shadow: 0px 2px 64px 36px rgba(0,0,0,0.75);">
+    </canvas>
+    <script>
+        var w = window,
+            d = document,
+            e = d.documentElement,
+            g = d.getElementsByTagName('body')[0],
+            x = w.innerWidth || e.clientWidth || g.clientWidth,
+            y = w.innerHeight || e.clientHeight || g.clientHeight;
+        document.getElementById('canvas').height = y - 5; //@TODO
+
+        Object.assign = function (destination, source) {
+            for (var k in source) {
+                if (undefined === destination[k]) {
+                    destination[k] = source[k];
+                }
+            }
+            return destination;
+        };
+
+        var assets = new Assets;
+        assets.addImage('ships', 'assets/ships.png');
+        assets.addImage('enemies', 'assets/enemies.png');
+        assets.addImage('asteroid-1', 'assets/asteroid-1.png');
+        assets.addImage('asteroid-4', 'assets/asteroid-4.png');
+        assets.addImage('asteroid-5', 'assets/asteroid-5.png');
+        assets.addImage('asteroid-8', 'assets/asteroid-8.png');
+        assets.addImage('boss-1', 'assets/boss-1.png');
+        assets.addImage('background', 'assets/background.jpg');
+        assets.addImage('background-dust-1', 'assets/background-dust-1.png');
+        assets.addImage('enemy-1', 'assets/enemy-1.png');
+        assets.addImage('turret-1', 'assets/turret-1.png');
+        assets.addImage('final-boss', 'assets/final-boss.png');
+        assets.addImage('final-boss-intro', 'assets/final-boss-intro.png');
+        assets.addImage('boss-2', 'assets/boss-2.png');
+        assets.addImage('boss-2-active', 'assets/boss-2-active.png');
+        assets.addImage('background-red-giant', 'assets/background-red-giant.png');
+        assets.addImage('final-boss-turret', 'assets/final-boss-turret.png');
+
+        assets.load(function () {
+            document.getElementById('loading').innerHTML = '';
+            var game = new Game(this);
+            game.run();
+        });
+
+    </script>
+</body>
+
+</html>
